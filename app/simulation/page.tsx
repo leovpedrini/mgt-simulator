@@ -9,11 +9,12 @@ import Link from 'next/link';
 import { SimulationForm } from '@/components/simulation/SimulationForm';
 import { ResultsPanel } from '@/components/simulation/ResultsPanel';
 import { NeuroButton } from '@/components/ui/NeuroInput';
-import type { SimulationInputs, SimulationResults } from '@/lib/types';
+import type { SimulationInputs } from '@/lib/types';
+import type { ExtendedSimulationResults } from '@/lib/logic/simulator';
 import { ArrowLeft, Save, Download } from 'lucide-react';
 
 export default function SimulationPage() {
-  const [results, setResults] = useState<SimulationResults | null>(null);
+  const [results, setResults] = useState<ExtendedSimulationResults | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastInputs, setLastInputs] = useState<SimulationInputs | null>(null);
@@ -35,7 +36,7 @@ export default function SimulationPage() {
         throw new Error(errData.error ?? 'Erro na simulação');
       }
 
-      const data: SimulationResults = await response.json();
+      const data: ExtendedSimulationResults = await response.json();
       setResults(data);
 
       // Scroll suave para os resultados em mobile
